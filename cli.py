@@ -4,7 +4,7 @@
 
 import sys
 
-import imageProcess
+import imageprocess
 import mmr
 
 def usage(program):
@@ -16,7 +16,7 @@ def cli():
     else:
         fileName = sys.argv[1]
 
-        image = imageProcess.loadImage(fileName)
+        image = imageprocess.loadImage(fileName)
 
         solo, party = mmr.parse(image)
 
