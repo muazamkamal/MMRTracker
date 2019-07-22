@@ -1,5 +1,5 @@
 # Name: Muazam Kamal
-# File: main.py
+# File: mmrtracker.py
 # Purpose: Main entry file for MMR Tracker.
 
 from cli import *
