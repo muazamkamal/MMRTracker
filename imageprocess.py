@@ -33,5 +33,5 @@ def loadImage(file):
             image = image.resize(newSize, Image.ANTIALIAS)
 
         return image
-    except (FileNotFoundError, PermissionError) as ex:
-        print("fatal: " + ex.strerror)
+    except (FileNotFoundError, PermissionError) as e:
+        print("fatal: " + e.strerror)
