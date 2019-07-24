@@ -4,6 +4,10 @@
 
 from PIL import Image
 from PIL import ImageOps
+import os
+
+def fileDate(file):
+    return os.path.getmtime(file)
 
 def loadImage(file):
     try:

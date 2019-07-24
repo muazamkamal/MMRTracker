@@ -33,10 +33,8 @@ def cli():
             else:
                 print("Party {0:d}".format(party[0]))
 
-            id = matchfinder.getSteamID("https://steamcommunity.com/id/muazamkamal/")
-
             try:
-                match = matchfinder.getMatch(id)
+                match = matchfinder.getMatch("89967077", imageprocess.fileDate(fileName))
 
                 side = matchfinder.getSide(match["player_slot"])
 
@@ -44,14 +42,17 @@ def cli():
 
                 if side == "Radiant" and match["radiant_win"] == True:
                     result = "won"
-                if side == "Dire" and match["radiant_win"] == False:
+                elif side == "Dire" and match["radiant_win"] == False:
                     result = "won"
                 else:
                     result = "lost"
 
+                matchID = match["match_id"]
+
                 print()
 
                 print("You " + result + " your last match!")
-                print("Match ID: {0:d}".format(match["match_id"]))
+                print("Match ID: {0:d}".format(matchID))
+                print("Link: https://www.opendota.com/matches/{0:d}".format(matchID))
             except matchfinder.OpenDotaAPIError as e:
-                print("fatal: Failed to fetch matches with the account id " + e.errors)
+                print("fatal: Failed to fetch match.")

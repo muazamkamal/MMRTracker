@@ -31,15 +31,12 @@ def getSteamID(steamURL):
 
     return "89967077"
 
-def getMatch(steamID):
+def getMatch(steamID, fileDate):
     foundMatch = None
 
-    url = "https://api.opendota.com/api/players/" + steamID + "/matches"
-    query = {
-        'limit':10
-    }
+    url = "https://api.opendota.com/api/players/" + steamID + "/recentMatches"
 
-    response = requests.get(url, query)
+    response = requests.get(url)
 
     if response.status_code != 200:
         raise OpenDotaAPIError(errors = steamID)
@@ -49,10 +46,15 @@ def getMatch(steamID):
     earliestTime = 0
 
     for currMatch in matches:
-        if currMatch["start_time"] < time.time():
+        if currMatch["start_time"] < fileDate:
             if currMatch["start_time"] > earliestTime:
                 foundMatch = currMatch
                 earliestTime = foundMatch["start_time"]
+
+    if foundMatch == None:
+        formatDate = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(fileDate))
+
+        raise OpenDotaAPIError(errors = formatDate)
 
     return foundMatch
 
