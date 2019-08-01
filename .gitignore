@@ -6,11 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
-# Python environment
-OCR/
-
 # VSCode
 .vscode/
+
+# Node
+node_modules/
 
 # Distribution / packaging
 .Python
@@ -32,7 +32,7 @@ wheels/
 MANIFEST
 
 # PyInstaller
-#  Usually these files are written by a python script from a template
+#  Usually theNodese files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
