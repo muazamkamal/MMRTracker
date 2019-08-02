@@ -6,10 +6,10 @@ from PIL import Image
 from PIL import ImageOps
 import os
 
-def fileDate(file):
+def file_date(file):
     return os.path.getmtime(file)
 
-def loadImage(file):
+def load_image(file):
     try:
         # Conversion to remove alpha channel, because invert does not work on alpha channel.
         image = Image.open(file).convert("RGB")
@@ -23,18 +23,18 @@ def loadImage(file):
 
             image = None
         else:
-            topX = 0.73 * width
-            topY = 0.17 * height
+            top_X = 0.73 * width
+            top_Y = 0.17 * height
 
-            bottomX = 0.86 * width
-            bottomY = 0.25 * height
+            bottom_X = 0.86 * width
+            bottom_Y = 0.25 * height
 
-            image = image.crop((topX, topY, bottomX, bottomY))
+            image = image.crop((top_X, top_Y, bottom_X, bottom_Y))
             image = ImageOps.invert(image)
 
-            newSize = tuple(2*x for x in image.size)
+            new_size = tuple(2*x for x in image.size)
 
-            image = image.resize(newSize, Image.ANTIALIAS)
+            image = image.resize(new_size, Image.ANTIALIAS)
 
         return image
     except (FileNotFoundError, PermissionError) as e:

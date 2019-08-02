@@ -15,15 +15,15 @@ class FindMatchException(Exception):
 class OpenDotaAPIError(FindMatchException):
     pass
 
-def getSteamID(steamURL):
-    # apiKey = "96627D1BE896D49A6ADBE6864A28F80F"
-    # communityID = steamURL.split("/id/")[1]
-    # communityID = communityID.replace('/', '')
+def get_steam_id(steamURL):
+    # api_key = "96627D1BE896D49A6ADBE6864A28F80F"
+    # community_id = steamURL.split("/id/")[1]
+    # community_id = community_id.replace('/', '')
 
     # url = "http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/"
     # params = {
-    #     'key':apiKey,
-    #     'vanityurl':communityID
+    #     'key':api_key,
+    #     'vanityurl':community_id
     # }
 
     # data = requests.get(url, params)
@@ -31,7 +31,7 @@ def getSteamID(steamURL):
 
     return "89967077"
 
-def getMatch(steamID, fileDate):
+def get_match(steamID, fileDate):
     foundMatch = None
 
     url = "https://api.opendota.com/api/players/" + steamID + "/recentMatches"
@@ -58,7 +58,7 @@ def getMatch(steamID, fileDate):
 
     return foundMatch
 
-def getSide(slot):
+def get_side(slot):
     switcher = {
         0:"Radiant",
         1:"Radiant",

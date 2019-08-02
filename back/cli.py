@@ -15,9 +15,9 @@ def cli():
     if len(sys.argv) < 2:
         usage(sys.argv[0])
     else:
-        fileName = sys.argv[1]
+        file_name = sys.argv[1]
 
-        image = imageprocess.loadImage(fileName)
+        image = imageprocess.load_image(file_name)
 
         solo, party = mmr.parse(image)
 
@@ -34,9 +34,9 @@ def cli():
                 print("Party {0:d}".format(party[0]))
 
             try:
-                match = matchfinder.getMatch("89967077", imageprocess.fileDate(fileName))
+                match = matchfinder.get_match("89967077", imageprocess.file_date(file_name))
 
-                side = matchfinder.getSide(match["player_slot"])
+                side = matchfinder.get_side(match["player_slot"])
 
                 result = None
 
@@ -47,12 +47,12 @@ def cli():
                 else:
                     result = "lost"
 
-                matchID = match["match_id"]
+                match_ID = match["match_id"]
 
                 print()
 
                 print("You " + result + " your last match!")
-                print("Match ID: {0:d}".format(matchID))
-                print("Link: https://www.opendota.com/matches/{0:d}".format(matchID))
+                print("Match ID: {0:d}".format(match_ID))
+                print("Link: https://www.opendota.com/matches/{0:d}".format(match_ID))
             except matchfinder.OpenDotaAPIError:
                 print("fatal: Failed to fetch match.")
