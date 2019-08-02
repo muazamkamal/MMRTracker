@@ -54,5 +54,5 @@ def cli():
                 print("You " + result + " your last match!")
                 print("Match ID: {0:d}".format(matchID))
                 print("Link: https://www.opendota.com/matches/{0:d}".format(matchID))
-            except matchfinder.OpenDotaAPIError as e:
+            except matchfinder.OpenDotaAPIError:
                 print("fatal: Failed to fetch match.")
