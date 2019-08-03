@@ -34,9 +34,13 @@ def get_steam_id(steamURL):
 def get_match(steamID, fileDate):
     foundMatch = None
 
-    url = "https://api.opendota.com/api/players/" + steamID + "/recentMatches"
+    url = "https://api.opendota.com/api/players/" + steamID + "/matches"
+    query = {
+        "limit": 20,
+        "lobby_type": 7 # Only query for ranked matches.
+    }
 
-    response = requests.get(url)
+    response = requests.get(url, query)
 
     if response.status_code != 200:
         raise OpenDotaAPIError(errors = steamID)
