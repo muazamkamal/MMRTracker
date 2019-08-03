@@ -1,8 +1,51 @@
 # Name: Muazam Kamal
 # File: mmr.py
-# Purpose: OCR, parsing and calculation of the MMR.
+# Purpose: MMR related functions and class.
 
 import pytesseract
+
+class Mmr:
+
+    # Constructor
+    def __init__(self, mmr, rem):
+        self._calibrate = self.__calibration(mmr, rem)
+
+        self._mmr = mmr
+        self._remaining = rem
+
+    # Accessors
+
+    def get_mmr(self):
+        return self._mmr
+
+    def get_remaining(self):
+        return self._remaining
+
+    def get_calibration(self):
+        return self._calibrate
+
+    # Validator
+
+    def __calibration(self, mmr, rem):
+        in_calibration = None
+
+        if type(mmr) is int:
+            if mmr < 0:
+                raise ValueError("Negative MMR is invalid.")
+
+            if rem != 0:
+                raise ValueError("Calibrated MMR should have 0 calibration games left.")
+
+            in_calibration = False
+        elif mmr == "TBD":
+            if rem < 1 or rem > 10:
+                raise ValueError("Calibration games should be between 1 to 10.")
+
+            in_calibration = True
+        else:
+            raise ValueError("Invalid MMR input.")
+
+        return in_calibration
 
 def parse(mmr_screen):
     solo = None
