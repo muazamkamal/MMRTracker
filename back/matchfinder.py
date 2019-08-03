@@ -31,10 +31,10 @@ def get_steam_id(steamURL):
 
     return "89967077"
 
-def get_match(steamID, fileDate):
-    foundMatch = None
+def get_match(steam_id, file_date):
+    found_match = None
 
-    url = "https://api.opendota.com/api/players/" + steamID + "/matches"
+    url = "https://api.opendota.com/api/players/" + steam_id + "/matches"
     query = {
         "limit": 20,
         "lobby_type": 7 # Only query for ranked matches.
@@ -43,24 +43,24 @@ def get_match(steamID, fileDate):
     response = requests.get(url, query)
 
     if response.status_code != 200:
-        raise OpenDotaAPIError(errors = steamID)
+        raise OpenDotaAPIError(errors = steam_id)
 
     matches = response.json()
 
-    earliestTime = 0
+    earliest_time = 0
 
-    for currMatch in matches:
-        if currMatch["start_time"] < fileDate:
-            if currMatch["start_time"] > earliestTime:
-                foundMatch = currMatch
-                earliestTime = foundMatch["start_time"]
+    for curr_match in matches:
+        if curr_match["start_time"] < file_date:
+            if curr_match["start_time"] > earliest_time:
+                found_match = curr_match
+                earliest_time = found_match["start_time"]
 
-    if foundMatch == None:
-        formatDate = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(fileDate))
+    if found_match == None:
+        format_date = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(file_date))
 
-        raise OpenDotaAPIError(errors = formatDate)
+        raise OpenDotaAPIError(errors = format_date)
 
-    return foundMatch
+    return found_match
 
 def get_side(slot):
     switcher = {
