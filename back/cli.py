@@ -33,6 +33,8 @@ def cli():
 
         try:
             match = matchfinder.get_match("89967077", imageprocess.file_date(file_name))
+            solo.set_match_id(match["match_id"])
+            party.set_match_id(match["match_id"])
 
             side = matchfinder.get_side(match["player_slot"])
 
