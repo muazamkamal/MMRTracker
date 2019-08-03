@@ -13,6 +13,8 @@ class Mmr:
         self._mmr = mmr
         self._remaining = rem
 
+        self._match_id = None
+
     # Accessors
 
     def get_mmr(self):
@@ -23,6 +25,11 @@ class Mmr:
 
     def get_calibration(self):
         return self._calibrate
+
+    # Mutators
+
+    def set_match_id(self, match_id):
+        self._match_id = match_id
 
     # Validator
 
