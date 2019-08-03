@@ -21,38 +21,36 @@ def cli():
 
         solo, party = mmr.parse(image)
 
-        if solo != (None, None) and party != (None, None):
+        if solo.get_calibration() == True:
+            print("Solo: " + solo.get_mmr() + ", " + str(solo.get_remaining()) + " games remaining.")
+        else:
+            print("Solo: " + str(solo.get_mmr()))
 
-            if solo[1] != None:
-                print("Solo: " + solo[0] + ", {0:d} games remaining.".format(solo[1]))
+        if party.get_calibration() == True:
+            print("Party: " + party.get_mmr() + ", " + str(party.get_remaining()) + " games remaining.")
+        else:
+            print("Party: " + str(party.get_mmr()))
+
+        try:
+            match = matchfinder.get_match("89967077", imageprocess.file_date(file_name))
+
+            side = matchfinder.get_side(match["player_slot"])
+
+            result = None
+
+            if side == "Radiant" and match["radiant_win"] == True:
+                result = "won"
+            elif side == "Dire" and match["radiant_win"] == False:
+                result = "won"
             else:
-                print("Solo {0:d}".format(solo[0]))
+                result = "lost"
 
-            if party[1] != None:
-                print("Party: " + party[0] + ", {0:d} games remaining.".format(party[1]))
-            else:
-                print("Party {0:d}".format(party[0]))
+            match_ID = match["match_id"]
 
-            try:
-                match = matchfinder.get_match("89967077", imageprocess.file_date(file_name))
+            print()
 
-                side = matchfinder.get_side(match["player_slot"])
-
-                result = None
-
-                if side == "Radiant" and match["radiant_win"] == True:
-                    result = "won"
-                elif side == "Dire" and match["radiant_win"] == False:
-                    result = "won"
-                else:
-                    result = "lost"
-
-                match_ID = match["match_id"]
-
-                print()
-
-                print("You " + result + " your last match!")
-                print("Match ID: {0:d}".format(match_ID))
-                print("Link: https://www.opendota.com/matches/{0:d}".format(match_ID))
-            except matchfinder.OpenDotaAPIError:
-                print("fatal: Failed to fetch match.")
+            print("You " + result + " your last match!")
+            print("Match ID: {0:d}".format(match_ID))
+            print("Link: https://www.opendota.com/matches/{0:d}".format(match_ID))
+        except matchfinder.OpenDotaAPIError:
+            print("fatal: Failed to fetch match.")
