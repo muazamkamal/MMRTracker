@@ -7,6 +7,8 @@ import sys
 import imageprocess
 import mmr
 import matchfinder
+import matchprocess
+import database
 
 def usage(program):
     print("usage: python " + program + " <dota screenshot>\n")
@@ -32,17 +34,14 @@ def cli():
             print("Party: " + str(party.get_mmr()))
 
         try:
-            match = matchfinder.get_match("89967077", imageprocess.file_date(file_name))
+            time = imageprocess.file_date(file_name)
+            match = matchfinder.get_match("89967077", time)
             solo.set_match_id(match["match_id"])
             party.set_match_id(match["match_id"])
 
-            side = matchfinder.get_side(match["player_slot"])
+            result = matchprocess.get_result(match)
 
-            result = None
-
-            if side == "Radiant" and match["radiant_win"] == True:
-                result = "won"
-            elif side == "Dire" and match["radiant_win"] == False:
+            if result == True:
                 result = "won"
             else:
                 result = "lost"
@@ -53,7 +52,15 @@ def cli():
 
             print("You " + result + " your last match!")
             print("Match ID: {0:d}".format(match_ID))
-            print("Played as: " + matchfinder.get_hero(match["hero_id"]))
+            print("Played as: " + matchprocess.get_hero(match["hero_id"]))
             print("Link: https://www.opendota.com/matches/{0:d}".format(match_ID))
+
+            database.setup()
+
+            # previous_mmr = database.fetch_latest()
+            # database.add_mmr(solo, party, time, previous_mmr)
+            # database.add_match(match)
+            database.link(match_ID, time)
+
         except matchfinder.OpenDotaAPIError:
             print("fatal: Failed to fetch match.")

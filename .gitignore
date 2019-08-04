@@ -12,6 +12,9 @@ __pycache__/
 # Node
 node_modules/
 
+# SQLite3
+*.db
+
 # Distribution / packaging
 .Python
 build/
