@@ -7,7 +7,7 @@ from PIL import ImageOps
 import os
 
 def file_date(file):
-    return os.path.getmtime(file)
+    return int(os.path.getmtime(file))
 
 def load_image(file):
     try:
