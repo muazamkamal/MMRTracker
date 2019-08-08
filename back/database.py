@@ -7,26 +7,33 @@ import sqlite3
 import matchprocess
 
 # Only run this for the first database and tables setup.
-def setup():
-    connect = sqlite3.connect("mmrtracker.db")
+def setup(db_name):
+    if db_name[-3:] != ".db":
+        db_name = db_name + ".db"
+
+    connect = sqlite3.connect(db_name)
     c = connect.cursor()
 
+    # Match database table
     try:
         c.execute("SELECT * FROM match")
     except sqlite3.OperationalError:
         c.execute("CREATE TABLE match (matchid INTEGER PRIMARY KEY, win INTEGER, duration INTEGER, hero TEXT, kills INTEGER, deaths INTEGER, assists INTEGER)")
         connect.commit()
 
+    # MMR database table
     try:
         c.execute("SELECT * FROM mmr")
     except sqlite3.OperationalError:
-        c.execute("CREATE TABLE mmr (time INTEGER PRIMARY KEY, matchid INTEGER, solo INTEGER, soloremaining INTEGER, solodelta INTEGER, party INTEGER, partyremaining INTEGER, partydelta INTEGER, FOREIGN KEY(matchid) REFERENCES match(matchid))")
+        c.execute("CREATE TABLE mmr (time INTEGER PRIMARY KEY, matchid INTEGER, core INTEGER, coreremaining INTEGER, coredelta INTEGER, support INTEGER, supportremaining INTEGER, supportdelta INTEGER, FOREIGN KEY(matchid) REFERENCES match(matchid))")
         connect.commit()
 
     connect.close()
 
-def fetch_latest():
-    connect = sqlite3.connect("mmrtracker.db")
+    return db_name
+
+def fetch_latest(db):
+    connect = sqlite3.connect(db)
     connect.row_factory = sqlite3.Row
     c = connect.cursor()
 
@@ -43,38 +50,38 @@ def fetch_latest():
 
     return result
 
-def add_mmr(solo, party, time, previous = None):
-    connect = sqlite3.connect("mmrtracker.db")
+def add_mmr(db, core, support, time, previous = None):
+    connect = sqlite3.connect(db)
     c = connect.cursor()
 
     insert = "INSERT INTO mmr VALUES(?, ?, ?, ?, ?, ?, ?, ?)"
 
-    solo_mmr = solo.get_mmr()
-    solo_rem = solo.get_remaining()
-    solo_delta = 0
-    party_mmr = party.get_mmr()
-    party_rem = party.get_remaining()
-    party_delta = 0
+    core_mmr = core.get_mmr()
+    core_rem = core.get_remaining()
+    core_delta = 0
+    support_mmr = support.get_mmr()
+    support_rem = support.get_remaining()
+    support_delta = 0
 
     if previous != None:
-        prev_solo = previous["solo"]
-        prev_party = previous["party"]
+        prev_core = previous["core"]
+        prev_support = previous["support"]
 
-        if solo != "TBD" and prev_solo != "TBD":
-            solo_delta = solo_mmr - prev_solo
+        if core != "TBD" and prev_core != "TBD":
+            core_delta = core_mmr - prev_core
 
-        if party != "TBD" and prev_party != "TBD":
-            party_delta = party_mmr - prev_party
+        if support != "TBD" and prev_support != "TBD":
+            support_delta = support_mmr - prev_support
 
-    data = (time, None, solo_mmr, solo_rem, solo_delta, party_mmr, party_rem, party_delta)
+    data = (time, None, core_mmr, core_rem, core_delta, support_mmr, support_rem, support_delta)
 
     c.execute(insert, data)
     connect.commit()
 
     connect.close()
 
-def add_match(match):
-    connect = sqlite3.connect("mmrtracker.db")
+def add_match(db, match):
+    connect = sqlite3.connect(db)
     c = connect.cursor()
 
     insert = "INSERT INTO match VALUES(?, ?, ?, ?, ?, ?, ?)"
@@ -95,8 +102,8 @@ def add_match(match):
     connect.close()
 
 
-def link(match_id, time):
-    connect = sqlite3.connect("mmrtracker.db")
+def link(db, match_id, time):
+    connect = sqlite3.connect(db)
     c = connect.cursor()
 
     c.execute("UPDATE mmr SET matchid = ? WHERE time = ?", (match_id, time))

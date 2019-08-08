@@ -23,11 +23,11 @@ def load_image(file):
 
             image = None
         else:
-            top_X = 0.73 * width
+            top_X = 0.71 * width
             top_Y = 0.17 * height
 
             bottom_X = 0.86 * width
-            bottom_Y = 0.25 * height
+            bottom_Y = 0.24 * height
 
             image = image.crop((top_X, top_Y, bottom_X, bottom_Y))
             image = ImageOps.invert(image)

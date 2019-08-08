@@ -21,23 +21,23 @@ def cli():
 
         image = imageprocess.load_image(file_name)
 
-        solo, party = mmr.parse(image)
+        core, support = mmr.parse(image)
 
-        if solo.get_calibration() == True:
-            print("Solo: " + solo.get_mmr() + ", " + str(solo.get_remaining()) + " games remaining.")
+        if core.get_calibration() == True:
+            print("Core: " + core.get_mmr() + ", " + str(core.get_remaining()) + " games remaining.")
         else:
-            print("Solo: " + str(solo.get_mmr()))
+            print("Core: " + str(core.get_mmr()))
 
-        if party.get_calibration() == True:
-            print("Party: " + party.get_mmr() + ", " + str(party.get_remaining()) + " games remaining.")
+        if support.get_calibration() == True:
+            print("Support: " + support.get_mmr() + ", " + str(support.get_remaining()) + " games remaining.")
         else:
-            print("Party: " + str(party.get_mmr()))
+            print("Support: " + str(support.get_mmr()))
 
         try:
             time = imageprocess.file_date(file_name)
             match = matchfinder.get_match("89967077", time)
-            solo.set_match_id(match["match_id"])
-            party.set_match_id(match["match_id"])
+            core.set_match_id(match["match_id"])
+            support.set_match_id(match["match_id"])
 
             result = matchprocess.get_result(match)
 
@@ -55,12 +55,13 @@ def cli():
             print("Played as: " + matchprocess.get_hero(match["hero_id"]))
             print("Link: https://www.opendota.com/matches/{0:d}".format(match_ID))
 
-            database.setup()
+            db_name = "s3_1_beta"
+            db_name = database.setup(db_name)
 
-            # previous_mmr = database.fetch_latest()
-            # database.add_mmr(solo, party, time, previous_mmr)
-            # database.add_match(match)
-            database.link(match_ID, time)
+            previous_mmr = database.fetch_latest(db_name)
+            database.add_mmr(db_name, core, support, time, previous_mmr)
+            database.add_match(db_name, match)
+            database.link(db_name, match_ID, time)
 
         except matchfinder.OpenDotaAPIError:
             print("fatal: Failed to fetch match.")
