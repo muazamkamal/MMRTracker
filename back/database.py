@@ -15,19 +15,12 @@ def setup(db_name):
     c = connect.cursor()
 
     # Match database table
-    try:
-        c.execute("SELECT * FROM match")
-    except sqlite3.OperationalError:
-        c.execute("CREATE TABLE match (matchid INTEGER PRIMARY KEY, win INTEGER, duration INTEGER, hero TEXT, kills INTEGER, deaths INTEGER, assists INTEGER)")
-        connect.commit()
+    c.execute("CREATE TABLE IF NOT EXISTS match (matchid INTEGER PRIMARY KEY, win INTEGER, duration INTEGER, hero TEXT, kills INTEGER, deaths INTEGER, assists INTEGER)")
 
     # MMR database table
-    try:
-        c.execute("SELECT * FROM mmr")
-    except sqlite3.OperationalError:
-        c.execute("CREATE TABLE mmr (time INTEGER PRIMARY KEY, matchid INTEGER, core INTEGER, coreremaining INTEGER, coredelta INTEGER, support INTEGER, supportremaining INTEGER, supportdelta INTEGER, FOREIGN KEY(matchid) REFERENCES match(matchid))")
-        connect.commit()
+    c.execute("CREATE TABLE IF NOT EXISTS mmr (time INTEGER PRIMARY KEY, matchid INTEGER, core INTEGER, coreremaining INTEGER, coredelta INTEGER, support INTEGER, supportremaining INTEGER, supportdelta INTEGER, FOREIGN KEY(matchid) REFERENCES match(matchid))")
 
+    connect.commit()
     connect.close()
 
     return db_name
