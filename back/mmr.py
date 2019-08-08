@@ -75,42 +75,48 @@ def parse(mmr_screen):
         except IndexError:
             raise ValueError("Unexcepted MMR string format.")
 
-        # Solo
-        try:
-            # Check for if it's still in calibration or not.
+        # Remove any spaces and convert to uppercase.
+        core = core.replace(' ', '')
+        core = core.upper()
 
-            core_remaining = core.split("Requires ")[1]
+        support = support.replace(' ', '')
+        support = support.upper()
+
+        # Core
+
+        # If TBD exists
+        if core.find("TBD-") != -1 and core.find("GAMESREMAINING") != -1:
+            core = core.replace("TBD-", '')
+            core = core.replace("GAMESREMAINING", '')
+
+            core_remaining = int(core)
             core = "TBD"
-        except IndexError:
-            # Check for the MMR value and convert to integers
-            # Error will be raised if conversion fails.
-            core = int(core.replace(',', ''))
-            core_remaining = 0
+        else:
+            core = core.replace(',', '')
 
-        # Party
-        try:
-            # Check for if it's still in calibration or not.
+            if core.isdigit():
+                core = int(core)
+                core_remaining = 0
+            else:
+                raise ValueError("Unexcepted Core MMR string format.")
 
-            support_remaining = support.split("Requires ")[1]
+        # Support
+
+        # If TBD exists
+        if support.find("TBD-") != -1 and support.find("GAMESREMAINING") != -1:
+            support = support.replace("TBD-", '')
+            support = support.replace("GAMESREMAINING", '')
+
+            support_remaining = int(support)
             support = "TBD"
-        except IndexError:
-            # Check for the MMR value and convert to integers
-            # Error will be raised if conversion fails.
-            support = int(support.replace(',', ''))
-            support_remaining = 0
+        else:
+            support = support.replace(',', '')
 
-        if core_remaining != 0:
-            # Attempt to get the amount of games left for TBD MMR
-            try:
-                core_remaining = int(core_remaining.split(" ")[0])
-            except IndexError:
-                raise ValueError("Unexpected calibration string format.")
-
-        if support_remaining != 0:
-            try:
-                support_remaining = int(support_remaining.split(" ")[0])
-            except IndexError:
-                raise ValueError("Unexpected calibration string format.")
+            if support.isdigit():
+                support = int(support)
+                support_remaining = 0
+            else:
+                raise ValueError("Unexcepted Support MMR string format.")
 
         core_mmr = Mmr(core, core_remaining)
         support_mmr = Mmr(support, support_remaining)
