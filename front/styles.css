@@ -4,5 +4,22 @@ body
     color: azure;
     font-family: 'Roboto';
     text-align: center;
-    text
+    margin: auto;
+}
+
+div
+{
+    text-align: center;
+    margin: auto;
+    width: 80%;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#support, #core
+{
+    font-size: 1.25em
 }
