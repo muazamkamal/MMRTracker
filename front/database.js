@@ -1,17 +1,5 @@
 const fs = require('fs')
-const path = require('path')
 const initSqlJs = require('./sql-wasm')
-const { ipcRenderer } = require('electron')
-
-function first () {
-  let exist = false
-
-  if (fs.existsSync(path.join(__dirname, '../back/s3_1_beta.db'))) {
-    exist = true
-  }
-
-  ipcRenderer.send('database-exist', exist)
-}
 
 function display (result) {
   var core = document.getElementById('core')
@@ -33,7 +21,7 @@ function display (result) {
 }
 
 function read () {
-  const filebuffer = fs.readFileSync(path.join(__dirname, '../back/s3_1_beta.db'))
+  const filebuffer = fs.readFileSync('../back/s3_1_beta.db')
 
   initSqlJs().then(SQL => {
     // Create a database

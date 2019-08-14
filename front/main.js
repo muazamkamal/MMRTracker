@@ -1,4 +1,5 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow } = require('electron')
+const fs = require('fs')
 
 function createWindow () {
   // Main window
@@ -17,38 +18,14 @@ function createWindow () {
     main = null
   })
 
-  // Loading window
-  let loading = new BrowserWindow({
-    width: 600,
-    height: 200,
-    resizable: true,
-    fullscreenable: false,
-    webPreferences: {
-      nodeIntegration: true
-    }
-  })
+  if (fs.existsSync('../back/s3_1_beta.db')) {
+    main.loadFile('index.html')
+  } else {
+    main.loadFile('first-setup.html')
+  }
 
-  loading.loadFile('loading.html')
-  // loading.webContents.openDevTools()
-
-  loading.on('closed', () => {
-    loading = null
-  })
-
-  ipcMain.once('database-exist', (event, status) => {
-    if (status) {
-      main.loadFile('index.html')
-    } else {
-      main.loadFile('first-setup.html')
-    }
-
-    loading.destroy()
-    loading = null
-
-    // main.webContents.openDevTools()
-    main.once('ready-to-show', () => {
-      main.show()
-    })
+  main.once('ready-to-show', () => {
+    main.show()
   })
 }
 
