@@ -22,9 +22,8 @@ body {
 }
 
 #core-mmr {
-    font-size: 1em;
+    font-size: 0.9em;
     font-family: 'Open Sans', sans-serif;
-    
 }
 
 #support {
@@ -32,6 +31,6 @@ body {
 }
 
 #support-mmr {
-    font-size: 1em;
+    font-size: 0.9em;
     font-family: 'Open Sans', sans-serif;
 }
