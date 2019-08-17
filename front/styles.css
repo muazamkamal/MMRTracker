@@ -34,3 +34,25 @@ body {
     font-size: 0.9em;
     font-family: 'Open Sans', sans-serif;
 }
+
+button {
+    background-color: rgb(50, 50, 50);
+    border: none;
+    border-radius: 5px;
+    color: azure;
+    padding: 8px 15px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.24), 0 12px 20px 0 rgba(0,0,0,0.19);
+  }
+
+#new-mmr {
+    padding: 15px;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+}
