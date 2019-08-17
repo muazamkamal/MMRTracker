@@ -15,6 +15,9 @@ node_modules/
 # SQLite3
 *.db
 
+# ESLint
+.eslintrc.json
+
 # Distribution / packaging
 .Python
 build/
