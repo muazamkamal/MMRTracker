@@ -1,26 +1,33 @@
 const fs = require('fs')
 const initSqlJs = require('./sql-wasm')
 
-function display (result) {
-  var core = document.getElementById('core')
-  var support = document.getElementById('support')
+function mmrToHTML (inMMR, remaining, delta) {
+  var mmr = inMMR
 
-  var coreText = core.innerHTML + result.core
-  var supporText = support.innerHTML + result.support
-
-  if (result.core === 'TBD') {
-    coreText = coreText + ', ' + result.coreremaining + ' games remaining.'
+  if (inMMR === 'TBD') {
+    mmr += '<br>' + remaining + ' games remaining'
+  } else {
+    if (delta !== 0) {
+      // TO-DO: Check negative or positive
+      mmr += '<br>' + delta
+    }
   }
 
-  if (result.support === 'TBD') {
-    supporText = supporText + ', ' + result.supportremaining + ' games remaining.'
-  }
-
-  core.innerHTML = coreText
-  support.innerHTML = supporText
+  return mmr
 }
 
-function read () {
+function display (result) {
+  var core = document.querySelector('#core-mmr')
+  var support = document.querySelector('#support-mmr')
+
+  // Core MMR
+  core.innerHTML = mmrToHTML(result.core, result.coreremaining, result.coredelta)
+
+  // Support MMR
+  support.innerHTML = mmrToHTML(result.support, result.supportremaining, result.supportdelta)
+}
+
+function getLatest () {
   const filebuffer = fs.readFileSync('../back/s3_1_beta.db')
 
   initSqlJs().then(SQL => {
@@ -37,3 +44,5 @@ function read () {
     db.close()
   })
 }
+
+getLatest()
