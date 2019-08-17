@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/muazamkamal/MMRTracker#readme",
   "devDependencies": {
-    "electron": "^6.0.0"
+    "electron": "^6.0.0",
+    "eslint": "^6.1.0"
   }
 }
