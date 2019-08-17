@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:light|Roboto&display=swap" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="styles.css"/>
-        <script type="text/javascript" src="database.js"></script>
         <title>MMR Tracker</title>
     </head>
-    <body onload="read()">
-        <div class="MMR">
-            <h2>Current MMR</h2>
-            <p id="core"><b>Core: </b></p>
-            <p id="support"><b>Support: </b></p>
+    <body>
+        <div class="main-panel">
+            <div id="core">
+                <p>Core</p>
+                <p id="core-mmr"></p>
+            </div>
+            <div id="support">
+                <p>Support</p>
+                <p id="support-mmr"></p>
+            </div>
         </div>
+        <script type="text/javascript" src="database.js"></script>
     </body>
 </html>
