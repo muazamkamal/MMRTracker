@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+html, body {
+    height: 100%;
+}
+
 body {
     background-color: rgba(60, 60, 60, 1);
     color: azure;
@@ -11,28 +15,16 @@ body {
 
 .main-panel {
     text-align: center;
-    padding-top: 30px;
+    height: 100%;
     display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
-#core {
-    font-size: 1.5em;
-}
-
-#core-mmr {
-    font-size: 0.9em;
-    font-family: 'Open Sans', sans-serif;
-}
-
-#support {
-    font-size: 1.5em;
-}
-
-#support-mmr {
-    font-size: 0.9em;
-    font-family: 'Open Sans', sans-serif;
+#title {
+    font-weight: 600;
+    font-size: 1.2em;
 }
 
 button {
@@ -48,11 +40,4 @@ button {
 
 button:hover {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.24), 0 12px 20px 0 rgba(0,0,0,0.19);
-  }
-
-#new-mmr {
-    padding: 15px;
-    right: 0;
-    bottom: 0;
-    position: absolute;
 }
