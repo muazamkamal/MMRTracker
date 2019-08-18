@@ -33,7 +33,7 @@ def fetch_latest(db):
     result = None
 
     try:
-        c.execute("SELECT * FROM mmr ORDER BY id DESC LIMIT 1")
+        c.execute("SELECT * FROM mmr ORDER BY time DESC LIMIT 1")
 
         result = c.fetchone()
     except sqlite3.OperationalError:
@@ -61,10 +61,10 @@ def add_mmr(db, core, support, time, previous = None):
         prev_support = previous["support"]
 
         if core != "TBD" and prev_core != "TBD":
-            core_delta = core_mmr - prev_core
+            core_delta = abs(core_mmr - prev_core)
 
         if support != "TBD" and prev_support != "TBD":
-            support_delta = support_mmr - prev_support
+            support_delta = abs(support_mmr - prev_support)
 
     data = (time, None, core_mmr, core_rem, core_delta, support_mmr, support_rem, support_delta)
 
