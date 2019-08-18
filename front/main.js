@@ -21,7 +21,7 @@ function createWindow () {
   if (fs.existsSync('../back/s3_1_beta.db')) {
     main.loadFile('index.html')
   } else {
-    main.loadFile('first-setup.html')
+    main.loadFile('welcome.html')
   }
 
   main.once('ready-to-show', () => {
