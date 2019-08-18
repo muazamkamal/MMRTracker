@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 const fs = require('fs')
 
 function createWindow () {
@@ -26,6 +26,10 @@ function createWindow () {
 
   main.once('ready-to-show', () => {
     main.show()
+  })
+
+  ipcMain.on('select-file', (event) => {
+    dialog.showOpenDialog(main, { properties: ['openFile'] })
   })
 }
 
