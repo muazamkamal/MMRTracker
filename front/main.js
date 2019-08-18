@@ -18,7 +18,7 @@ function createWindow () {
     main = null
   })
 
-  if (fs.existsSync('../back/s3_1_beta.db')) {
+  if (fs.existsSync('../back/.db')) {
     main.loadFile('index.html')
   } else {
     main.loadFile('welcome.html')
@@ -29,7 +29,11 @@ function createWindow () {
   })
 
   ipcMain.on('select-file', (event) => {
-    dialog.showOpenDialog(main, { properties: ['openFile'] })
+    dialog.showOpenDialog(main, { properties: ['openFile'] }).then(result => {
+      if (!result.canceled) {
+        console.log(result.filePaths[0])
+      }
+    })
   })
 }
 
