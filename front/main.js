@@ -31,7 +31,7 @@ function createWindow () {
   ipcMain.on('select-file', (event) => {
     dialog.showOpenDialog(main, { properties: ['openFile'] }).then(result => {
       if (!result.canceled) {
-        console.log(result.filePaths[0])
+        event.reply('file-selected', result.filePaths[0])
       }
     })
   })
