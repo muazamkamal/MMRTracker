@@ -2,12 +2,10 @@ const { PythonShell } = require('python-shell')
 const { ipcRenderer } = require('electron')
 
 function selectFile () {
-  ipcRenderer.send('select-initial')
+  ipcRenderer.send('select-file')
 }
 
 ipcRenderer.on('file-selected', (event, arg) => {
-  // console.log(arg)
-
   const options = {
     mode: 'text',
     pythonPath: '../env/bin/python',

@@ -1,5 +1,7 @@
 const fs = require('fs')
 const initSqlJs = require('./sql-wasm')
+const { ipcRenderer } = require('electron')
+const { PythonShell } = require('python-shell')
 
 function mmrToHTML (inMMR, remaining, delta) {
   var mmr = inMMR
@@ -27,8 +29,8 @@ function display (result) {
   support.innerHTML = mmrToHTML(result.support, result.supportremaining, result.supportdelta)
 }
 
-function getLatest () {
-  const filebuffer = fs.readFileSync('../back/s3_1_beta.db')
+function getLatest (dbName) {
+  const filebuffer = fs.readFileSync('../database/' + dbName)
 
   initSqlJs().then(SQL => {
     // Create a database
@@ -45,4 +47,24 @@ function getLatest () {
   })
 }
 
-getLatest()
+getLatest('test.db')
+
+function updateMMR () {
+  ipcRenderer.send('select-file')
+}
+
+ipcRenderer.on('file-selected', (event, arg) => {
+  const options = {
+    mode: 'text',
+    pythonPath: '../env/bin/python',
+    pythonOptions: ['-u'], // get print results in real-time
+    scriptPath: '../back',
+    args: [arg, 'test']
+  }
+
+  PythonShell.run('front.py', options, function (err, results) {
+    if (err) throw err
+
+    getLatest('test.db')
+  })
+})
