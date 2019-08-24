@@ -11,7 +11,7 @@ def setup(db_name):
     if db_name[-3:] != ".db":
         db_name = db_name + ".db"
 
-    connect = sqlite3.connect(db_name)
+    connect = sqlite3.connect("../database/" + db_name)
     c = connect.cursor()
 
     # Match database table
@@ -44,7 +44,7 @@ def fetch_latest(db):
     return result
 
 def add_mmr(db, core, support, time, previous = None):
-    connect = sqlite3.connect(db)
+    connect = sqlite3.connect("../database/" + db)
     c = connect.cursor()
 
     insert = "INSERT INTO mmr VALUES(?, ?, ?, ?, ?, ?, ?, ?)"
@@ -74,7 +74,7 @@ def add_mmr(db, core, support, time, previous = None):
     connect.close()
 
 def add_match(db, match):
-    connect = sqlite3.connect(db)
+    connect = sqlite3.connect("../database/" + db)
     c = connect.cursor()
 
     insert = "INSERT INTO match VALUES(?, ?, ?, ?, ?, ?, ?)"
@@ -96,7 +96,7 @@ def add_match(db, match):
 
 
 def link(db, match_id, time):
-    connect = sqlite3.connect(db)
+    connect = sqlite3.connect("../database/" + db)
     c = connect.cursor()
 
     c.execute("UPDATE mmr SET matchid = ? WHERE time = ?", (match_id, time))

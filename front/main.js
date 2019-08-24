@@ -1,6 +1,19 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 const fs = require('fs')
 
+// Create database directory if doesn't exists.
+if (!fs.existsSync('../database')) {
+  fs.mkdirSync('../database')
+}
+
+function dynamicPage (dbName) {
+  if (fs.existsSync('../database/' + dbName)) {
+    return 'index.html'
+  } else {
+    return 'welcome.html'
+  }
+}
+
 function createWindow () {
   // Main window
   let main = new BrowserWindow({
@@ -14,15 +27,13 @@ function createWindow () {
     }
   })
 
+  const db = 'test.db'
+
   main.on('closed', () => {
     main = null
   })
 
-  if (fs.existsSync('../back/.db')) {
-    main.loadFile('index.html')
-  } else {
-    main.loadFile('welcome.html')
-  }
+  main.loadFile(dynamicPage(db))
 
   main.once('ready-to-show', () => {
     main.show()
@@ -34,6 +45,10 @@ function createWindow () {
         event.reply('file-selected', result.filePaths[0])
       }
     })
+  })
+
+  ipcMain.on('loaded', (event) => {
+    main.loadFile(dynamicPage(db))
   })
 }
 
