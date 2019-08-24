@@ -2,7 +2,7 @@ const { PythonShell } = require('python-shell')
 const { ipcRenderer } = require('electron')
 
 function selectFile () {
-  ipcRenderer.send('select-file')
+  ipcRenderer.send('select-initial')
 }
 
 ipcRenderer.on('file-selected', (event, arg) => {
