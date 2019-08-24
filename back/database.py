@@ -26,7 +26,7 @@ def setup(db_name):
     return db_name
 
 def fetch_latest(db):
-    connect = sqlite3.connect(db)
+    connect = sqlite3.connect("../database/" + db)
     connect.row_factory = sqlite3.Row
     c = connect.cursor()
 
