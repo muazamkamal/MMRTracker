@@ -23,5 +23,8 @@
   "devDependencies": {
     "electron": "^6.0.0",
     "eslint": "^6.1.0"
+  },
+  "dependencies": {
+    "python-shell": "^1.0.8"
   }
 }
