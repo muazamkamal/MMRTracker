@@ -49,6 +49,7 @@ def add_mmr(db, core, support, time, previous = None):
 
     insert = "INSERT INTO mmr VALUES(?, ?, ?, ?, ?, ?, ?, ?)"
 
+    time = int(time)
     core_mmr = core.get_mmr()
     core_rem = core.get_remaining()
     core_delta = 0
@@ -99,7 +100,7 @@ def link(db, match_id, time):
     connect = sqlite3.connect("../database/" + db)
     c = connect.cursor()
 
-    c.execute("UPDATE mmr SET matchid = ? WHERE time = ?", (match_id, time))
+    c.execute("UPDATE mmr SET matchid = ? WHERE time = ?", (match_id, int(time)))
     connect.commit()
 
     connect.close()
