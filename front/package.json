@@ -25,6 +25,7 @@
     "eslint": "^6.1.0"
   },
   "dependencies": {
+    "chokidar": "^3.0.2",
     "python-shell": "^1.0.8"
   }
 }

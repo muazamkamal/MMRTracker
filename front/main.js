@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 const fs = require('fs')
+const chokidar = require('chokidar')
 
 // Create database directory if doesn't exists.
 if (!fs.existsSync('../database')) {
@@ -49,6 +50,22 @@ function createWindow () {
 
   ipcMain.on('loaded', (event) => {
     main.loadFile(dynamicPage(db))
+  })
+
+  ipcMain.on('select-dir', (event) => {
+    dialog.showOpenDialog(main, { properties: ['openDirectory'] }).then(result => {
+      if (!result.canceled) {
+        const watcher = chokidar.watch(result.filePaths[0], {
+          ignoreInitial: true,
+          persistent: true,
+          depth: 0
+        })
+
+        watcher.on('add', path => {
+          event.reply('new-file', path)
+        })
+      }
+    })
   })
 }
 

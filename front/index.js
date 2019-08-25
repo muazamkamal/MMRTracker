@@ -49,22 +49,36 @@ function getLatest (dbName) {
 
 getLatest('test.db')
 
-function updateMMR () {
-  ipcRenderer.send('select-file')
-}
-
-ipcRenderer.on('file-selected', (event, arg) => {
+function runEngine (path) {
   const options = {
     mode: 'text',
     pythonPath: '../env/bin/python',
     pythonOptions: ['-u'], // get print results in real-time
     scriptPath: '../back',
-    args: [arg, 'test']
+    args: [path, 'test']
   }
 
   PythonShell.run('front.py', options, function (err, results) {
     if (err) throw err
 
+    console.log(results)
+
     getLatest('test.db')
   })
+}
+
+function updateMMR () {
+  ipcRenderer.send('select-file')
+}
+
+ipcRenderer.on('file-selected', (event, arg) => {
+  runEngine(arg)
+})
+
+function selectDir () {
+  ipcRenderer.send('select-dir')
+}
+
+ipcRenderer.on('new-file', (event, arg) => {
+  runEngine(arg)
 })
