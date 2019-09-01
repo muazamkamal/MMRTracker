@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:light|Roboto&display=swap" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="styles.css"/>
+        <title>MMR Tracker</title>
+    </head>
+    <body>
+        <div class="main-panel">
+            <div id="core">
+                <p>Core</p>
+                <p id="core-mmr"></p>
+            </div>
+            <div id="support">
+                <p>Support</p>
+                <p id="support-mmr"></p>
+            </div>
+        </div>
+        <div id="new-mmr">
+            <button type="button" onclick="updateMMR()">Update</button>
+        </div>
+        <div id="watch-folder">
+            <button type="button" onclick="selectDir()">Watch folder</button>
+        </div>
+        <script type="text/javascript" src="index.js"></script>
+    </body>
+</html>
