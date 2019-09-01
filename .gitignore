@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Synology Sync Conflics
+
+*_Conflic*
+
 # C extensions
 *.so
 
