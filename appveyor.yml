@@ -3,7 +3,6 @@ version: 0.1.{build}
 branches:
   only:
     - master
-    - vuejs
 
 image: Visual Studio 2017
 platform:
