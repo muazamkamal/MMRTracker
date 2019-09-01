@@ -3,9 +3,19 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# electron-vue
+.DS_Store
+dist/electron/*
+dist/web/*
+build/*
+!build/icons
+npm-debug.log.*
+thumbs.db
+!.gitkeep
+
 # Synology Sync Conflics
 
-*_Conflic*
+*_Conflict*
 
 # C extensions
 *.so
