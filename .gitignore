@@ -26,8 +26,8 @@ thumbs.db
 # Node
 node_modules/
 
-# SQLite3
-*.db
+# Database
+database/
 
 # ESLint
 .eslintrc.json
