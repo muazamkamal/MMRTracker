@@ -3,8 +3,8 @@ name: Node CI
 on:
   push:
     branches:
+    - master
     - dev
-    - vuejs
   pull_request:
     branches:
     - master
