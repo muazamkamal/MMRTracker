@@ -1,12 +1,10 @@
 name: Node CI
 
 on:
-  push:
-    branches:
-    - master
   pull_request:
     branches:
-     - vuejs
+    - master
+    - vuejs
 
 jobs:
   build:
