@@ -31,6 +31,17 @@
 
 <script>
   import SystemInformation from './LandingPage/SystemInformation'
+  const PouchDB = require('pouchdb')
+  var testDB = new PouchDB('/home/muazamkamal/Documents/Projects/mmrtracker/database/testDB')
+
+  testDB.put({
+    _id: '1234',
+    core: 3910
+  }).then(() => {
+    testDB.get('1234').then(data => {
+      console.log(data)
+    })
+  })
 
   export default {
     name: 'landing-page',
